@@ -1,0 +1,239 @@
+@font-face{
+  font-family: 'RubikBubbles';
+  src: url('/fonts/RubikBubbles.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face{
+  font-family: 'MontserratCustom';
+  src: url('/fonts/Montserrat-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+.learning-page { max-width:980px; margin:36px auto; padding:18px; font-family: 'MontserratCustom', sans-serif; }
+.learning-header h1 { font-size:28px; color:#DE8C7D; margin-bottom:4px; font-family:'RubikBubbles'}
+.subtitle{ color:#666; margin-bottom:18px; }
+
+.question-card { background:#fff; border-radius:12px; padding:14px; margin-bottom:12px; border:1px solid rgba(0,0,0,0.04); box-shadow:0 8px 20px rgba(0,0,0,0.04); }
+.q-prompt { font-weight:700; margin-bottom:10px; color:#1e3b4a; }
+.q-input input[type="text"]{ width:100%; padding:10px 12px; font-size:16px; border-radius:10px; border:1px solid #e6e6e6; outline:none; }
+.q-options .option { display:block; padding:6px 8px; border-radius:8px; cursor:pointer; }
+.q-options input[type="radio"]{ margin-right:8px; }
+
+.question-card.correct { border-color:#8AA878; box-shadow:0 14px 36px rgba(138,168,120,0.06); }
+.question-card.wrong { border-color:#FF9D9D; box-shadow:0 10px 20px rgba(255,157,157,0.04); }
+
+.q-result { margin-top:8px; font-size:14px; }
+
+.form-actions { display:flex; gap:12px; margin-top:12px; }
+.btn { padding:10px 16px; border-radius:10px; cursor:pointer; border:none; font-size:16px; }
+.btn.primary { background:#B298E7; color:#fff; }
+.btn.secondary { background:#A98FE0; color:#fff; }
+.btn.ghost { background:transparent; color:#666; border:1px solid #ddd; }
+
+.summary { margin-top:16px; display:flex; flex-direction:column; gap:8px; align-items:flex-start; }
+.progress-wrap { width:100%; background:#eee; border-radius:10px; height:14px; overflow:hidden; }
+.progress-bar { height:100%; background:#8AA878; width:0%; color:#fff; text-align:center; font-size:12px; line-height:14px; }
+.correct-answers { margin-top:6px; font-size:13px; color:#444; background:rgba(0,0,0,0.02); padding:6px; border-radius:8px; }
+/* Анимация плавной подсветки */
+.question-card {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover для вариантов ответа */
+.q-options .option:hover {
+  background:#f5f5f5;
+}
+
+/* Hover для кнопок */
+.btn:hover {
+  opacity:0.9;
+  transform: translateY(-1px);
+}
+
+.q-result span {
+  font-size: 16px;
+  font-weight: bold;
+}
+.q-result small {
+  display: block;
+  margin-top: 4px;
+}
+.progress-wrap {
+  width: 100%;
+  background: #eee;
+  border-radius: 10px;
+  height: 16px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+.progress-bar {
+  height: 100%;
+  background: #8AA878;
+  width: 0%;
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+  line-height: 16px;
+  transition: width 0.4s ease; /* плавная анимация */
+}
+
+/* Мобильная оптимизация */
+@media (max-width: 600px) {
+  .learning-page {
+    margin: 12px auto;
+    padding: 10px;
+  }
+  .q-input input[type="text"] {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+  .btn {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  h1 {
+    font-size: 22px;
+  }
+}
+/* Превью карточек текстов */
+.texts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.text-card {
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  transition: transform .18s cubic-bezier(.2,.9,.25,1), box-shadow .18s;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+.text-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 48px rgba(0,0,0,0.10);
+}
+
+.text-card-link {
+  display:flex;
+  gap:16px;
+  align-items:stretch;
+  text-decoration:none;
+  color:inherit;
+  padding:16px;
+}
+
+.text-card-left {
+  flex:0 0 120px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.text-cover {
+  width:120px;
+  height:120px;
+  object-fit:cover;
+  border-radius:10px;
+  box-shadow: inset 0 -6px 0 rgba(0,0,0,0.02);
+  background: linear-gradient(180deg,#f8f8f8,#fff);
+}
+
+.text-cover-fallback{
+  width:120px;
+  height:120px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  background: linear-gradient(180deg,#f0f4f6,#fff);
+}
+
+.text-card-body{
+  flex:1 1 auto;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.text-card-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:8px;
+}
+
+.text-title{
+  font-size:18px;
+  font-weight:700;
+  margin:0;
+  color:#1e3b4a;
+}
+
+/* бейдж уровня */
+.level-badge{
+  padding:6px 10px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:700;
+  color:#fff;
+  margin-left:auto;
+}
+
+/* цвет бейджей (пример) */
+.level-badge:contains("A1"), .level-badge[th\\:text="${t.level}='A1'"] { background:#8AA878; } /* обратите внимание: :contains не везде — делаем классы через бэк */
+.level-badge { background:#8AA878; } /* default */
+
+.text-excerpt{
+  margin:0 0 10px 0;
+  color:#49505a;
+  line-height:1.45;
+  max-height:3.6em;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.text-meta{
+  font-size:13px;
+  color:#7b8596;
+}
+
+/* CTA справа (в виде кнопки) */
+.text-card-cta{
+  flex:0 0 96px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.open-btn{
+  background:transparent;
+  border: 1px solid rgba(0,0,0,0.06);
+  padding:8px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  color:#1e3b4a;
+  font-weight:600;
+  transition: background .14s, transform .14s;
+}
+.open-btn:hover{ background: rgba(0,0,0,0.03); transform: translateY(-3px); }
+
+/* Responsive: на узких экранах — вертикальная карточка */
+@media (max-width:560px){
+  .text-card-link{ flex-direction:column; align-items:flex-start; }
+  .text-card-left{ width:100%; }
+  .text-cover, .text-cover-fallback{ width:100%; height:180px; }
+  .text-card-cta{ width:100%; justify-content:flex-end; padding-top:8px; }
+}
+.text-card.visited { opacity: 0.9; transform: translateY(-3px); }
+.audio-player { margin: 12px 0; }
+.transcript { margin-top: 12px; padding: 12px; border-radius: 8px; background:#fafafa; border: 1px solid rgba(0,0,0,0.04); max-height:320px; overflow:auto; font-size:15px; line-height:1.5; }
+.transcript-controls .btn { margin-top: 8px; }
+.reading-list .reading-card { display:block; padding:14px; border-radius:10px; background:#fff; box-shadow:0 8px 20px rgba(0,0,0,0.04); margin-bottom:12px; text-decoration:none; color:inherit; }
+.reading-card h3 { margin:0 0 6px 0; font-size:18px; }
+.reading-card p { margin:0; color:#666; }
+
+.audio-list .audio-card { display:block; padding:14px; border-radius:10px; background:#fff; box-shadow:0 8px 20px rgba(0,0,0,0.04); margin-bottom:12px; text-decoration:none; color:inherit; }

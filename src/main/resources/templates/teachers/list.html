@@ -1,0 +1,80 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Репетиторы — Marmalade</title>
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}" href="/css/dashboard.css"/>
+</head>
+<body>
+<div class="container">
+  <div class="top-row" style="margin-bottom:18px;">
+    <a th:href="@{/dashboard(tab='tutors')}" class="btn back">← К разделам Marmalade</a>
+  </div>
+
+  <h1 class="page-title">Каталог репетиторов</h1>
+
+  <!-- controls -->
+  <div class="controls-row" style="display:flex;gap:12px;align-items:center;margin:18px 0;">
+    <div class="sort-label">Сортировать:</div>
+    <a th:href="@{/teachers(sort='name')}"
+       th:classappend="${currentSort}=='name' ? 'active-sort' : ''"
+       class="btn ghost small">По имени</a>
+
+    <a th:href="@{/teachers(sort='price')}"
+       th:classappend="${currentSort}=='price' ? 'active-sort' : ''"
+       class="btn ghost small">По цене</a>
+
+    <div style="margin-left:auto" th:if="${isAdmin}">
+      <a th:href="@{/admin/requests}" class="btn ghost">📋 Смотреть все заявки</a>
+      <a th:href="@{/admin/teachers/new}" class="btn ghost small">➕ Добавить преподавателя</a>
+    </div>
+  </div>
+
+  <!-- grid -->
+  <div class="teachers-grid" role="list" aria-label="Список преподавателей">
+    <!-- каждая карточка — ссылка на detail -->
+    <a th:each="t : ${teachers}" th:href="@{/teachers/{id}(id=${t.id})}"
+       class="teacher-card" role="listitem" tabindex="0">
+
+      <div class="teacher-photo-wrap">
+        <img class="teacher-photo"
+             th:if="${t.photo != null}"
+             th:src="@{'/images/teachers/' + ${t.photo}}"
+             th:alt="${t.fullName} + ' — фото преподавателя'"
+             onerror="this.onerror=null;this.src='/images/teacher-placeholder.png'"/>
+        <img class="teacher-photo"
+             th:if="${t.photo == null}"
+             src="/images/teacher-placeholder.png"
+             alt="Фото преподавателя"/>
+      </div>
+
+      <div class="teacher-body">
+        <div class="teacher-name" th:text="${t.fullName}">Имя Фамилия</div>
+        <div class="teacher-desc">
+          <span class="teacher-level" th:text="${t.level}">B2</span>
+          <span class="sep">•</span>
+          <span class="teacher-language" th:text="${t.language}">Английский</span>
+        </div>
+
+        <div class="teacher-extra">
+          <div class="teacher-price"  th:text="${t.price} + '€ / час'">25€ / час</div>
+
+          <div class="teacher-actions">
+
+            </div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- pagination placeholder -->
+  <div class="pagination-row" style="margin-top:18px">
+    <!-- можно вставить пагинацию здесь -->
+  </div>
+</div>
+
+<script src="/js/teachers-list.js" defer></script>
+</body>
+</html>

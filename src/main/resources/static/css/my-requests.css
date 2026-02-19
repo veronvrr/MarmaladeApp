@@ -1,0 +1,105 @@
+.page-title {
+  font-family: 'Rubik Bubbles', cursive;
+  font-size: 48px;
+  color: #DE8C7D;
+  text-align: center;
+  margin: 40px 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  background: #B8E3E9; /* пастельный фон */
+  border-radius: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.no-requests {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  color: #666;
+  margin: 60px 0;
+}
+
+.requests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.request-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.request-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(178, 152, 231, 0.1);
+}
+
+.request-info {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.request-info strong {
+  color: #597FB1;
+  margin-right: 10px;
+}
+
+.badge {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.badge-pending {
+  background: #F9BEDD; /* розовый */
+  color: #333;
+}
+
+.badge-approved {
+  background: #CAE9B8; /* зеленый */
+  color: #333;
+}
+
+.badge-rejected {
+  background: #FF9D9D; /* красный */
+  color: white;
+}
+
+.badge-cancelled {
+  background: #DDD; /* серый */
+  color: #333;
+}
+
+.badge-unknown {
+  background: #EEE;
+  color: #666;
+}
+
+.request-actions {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn.cancel {
+  background: #FF9D9D;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.btn.cancel:hover {
+  background: #FF7A7A;
+  transform: translateY(-2px);
+}

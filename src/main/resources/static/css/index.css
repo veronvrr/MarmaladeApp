@@ -1,0 +1,224 @@
+/* Fonts (если уже подключены глобально, можно удалить дубли) */
+@font-face {
+  font-family: 'RubikBubbles';
+  src: url('/fonts/RubikBubbles.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'MontserratCustom';
+  src: url('/fonts/Montserrat-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* Переменные и базовые настройки */
+:root{
+  --bg: #FFFFFF;
+  --text: #3D3D3D;
+  --app-name-color: #DE8C7D;
+  --btn-primary: #B298E7;
+  --btn-secondary: #A98FE0;
+
+  --max-width: 1280px;
+  --gap: 40px;
+  --pad: 60px;
+
+  --transition-fast: 180ms;
+  --transition-mid: 360ms;
+  --easing: cubic-bezier(.2,.9,.25,1);
+}
+
+/* базовый сброс */
+*{ box-sizing: border-box; margin:0; padding:0; }
+html,body{ height:100%; }
+body{
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'MontserratCustom', system-ui, Arial, sans-serif;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* ===== HERO layout ===== */
+.hero{
+  padding: var(--pad);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.hero-inner{
+  width:100%;
+  max-width: var(--max-width);
+  display:flex;
+  gap: var(--gap);
+  align-items:stretch;
+  /* базовая анимация появления */
+  opacity:0;
+  transform: translateY(8px);
+  animation: heroFadeIn var(--transition-mid) var(--easing) forwards;
+  animation-delay: 120ms;
+}
+
+/* left (image) */
+.hero-left{
+  flex:1 1 50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:visible;
+  /* slide in from left */
+  transform: translateX(-18px);
+  animation: slideInLeft var(--transition-mid) var(--easing) forwards;
+  animation-delay: 220ms;
+}
+.hero-image{
+  max-width:686px;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  display:block;
+  border-radius: 8px;
+  /* лёгкое "плавание" */
+  transform-origin:center;
+  animation: floatSlow 6s ease-in-out infinite;
+  will-change: transform;
+  box-shadow: 0 24px 52px rgba(0,0,0,0.08);
+}
+
+/* right (text + buttons) */
+.hero-right{
+  flex:1 1 50%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding-left: 32px;
+  padding-right: 32px;
+  gap: 20px;
+  /* slide in from right */
+  transform: translateX(18px);
+  animation: slideInRight var(--transition-mid) var(--easing) forwards;
+  animation-delay: 260ms;
+}
+
+/* Titles centered across page (visual center) */
+.right-top{
+  transform: translateY(-2%);
+  text-align:center;
+  margin-top: 100px; /* можно подправить */
+  pointer-events: none; /* чтобы заголовок не влиял на фокус */
+  opacity:0;
+  animation: fadeUp var(--transition-mid) var(--easing) forwards;
+  animation-delay: 320ms;
+}
+.welcome-small{
+  font-size:48px;
+  color: var(--text);
+  margin-bottom:8px;
+  font-weight: 400;
+}
+.brand{
+  font-family: 'RubikBubbles', 'MontserratCustom', sans-serif;
+  color: var(--app-name-color);
+  font-size:96px;
+  line-height:0.95;
+  margin:0;
+  text-shadow: 0 2px 0 rgba(0,0,0,0.03);
+}
+
+/* right-bottom: кнопки по центру и ближе к низу */
+.right-bottom{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:auto;
+  padding-bottom: 40px;
+  opacity:0;
+  animation: fadeUp var(--transition-mid) var(--easing) forwards;
+  animation-delay: 360ms;
+}
+
+/* кнопки */
+.buttons{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  align-items:center;
+  justify-content:center;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:451px;
+  height:56px;
+  border-radius:28px;
+  text-decoration:none;
+  font-family: 'MontserratCustom', sans-serif;
+  font-size:32px;
+  color:#FFFFFF;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.08);
+  transition: transform var(--transition-fast) var(--easing), box-shadow var(--transition-fast) var(--easing), filter var(--transition-fast) var(--easing);
+}
+
+/* primary / secondary */
+.btn-primary{ background: linear-gradient(180deg,var(--btn-primary), #9c7de0); border:none; }
+.btn-secondary{ background: linear-gradient(180deg,var(--btn-secondary), #8f7adf); border:none; }
+
+/* hover/active */
+.btn:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.12); filter:brightness(1.02); }
+.btn:active{ transform: translateY(-2px) scale(.997); box-shadow: 0 8px 22px rgba(0,0,0,0.08); }
+
+/* focus-visible accessible outline */
+.btn:focus-visible{ outline: 3px solid rgba(0,0,0,0.06); outline-offset:4px; }
+
+/* адаптив */
+@media (max-width: 1000px){
+  .hero-inner{ flex-direction:column; gap:28px; padding: 0 16px; }
+  .hero-left, .hero-right{ width:100%; }
+  .hero-image{ max-width:460px; margin: 0 auto; }
+  .brand{ font-size:64px; }
+  .welcome-small{ font-size:28px; }
+  .buttons{ gap:12px; }
+  .btn{ width:80%; max-width:480px; font-size:28px; height:54px; }
+  .right-top{ margin-top: 20px; transform:none; }
+}
+
+/* ========== KEYFRAMES ========== */
+@keyframes heroFadeIn {
+  from { opacity:0; transform: translateY(8px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+@keyframes slideInLeft {
+  from { opacity:0; transform: translateX(-18px); }
+  to   { opacity:1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity:0; transform: translateX(18px); }
+  to   { opacity:1; transform: translateX(0); }
+}
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(10px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+@keyframes floatSlow {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+/* reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .hero-inner,
+  .hero-left,
+  .hero-right,
+  .right-top,
+  .right-bottom,
+  .hero-image {
+    animation: none !important;
+    transition: none !important;
+  }
+}

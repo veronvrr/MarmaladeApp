@@ -1,0 +1,62 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+  <title>Grammar — Marmalade</title>
+  <link rel="stylesheet" th:href="@{/css/learning.css}" href="/css/learning.css"/>
+</head>
+<body>
+<div class="learning-page">
+  <div class="top-row">
+    <a th:href="@{/dashboard(tab='learning')}" class="btn back">← К модулям</a>
+    <div class="user-info" th:if="${user != null}">
+      <span>Уровень: <strong th:text="${user.level}">A1</strong></span>
+    </div>
+  </div>
+  <div class="learning-header">
+  <h1>Grammar practice</h1>
+  </div>
+
+  <div class="questions" th:if="${questions != null and !questions.isEmpty()}">
+
+  <form id="grammarForm" action="#" onsubmit="return false;">
+      <div th:each="q : ${questions}" th:attr="data-qid=${q.id}" class="question-card">
+        <div class="q-prompt" th:text="${q.prompt}">Prompt</div>
+
+        <!-- варианты (radio) -->
+        <div class="q-options" th:if="${q.options != null}">
+          <label th:each="opt : ${q.options}" class="option">
+            <input type="radio" th:name="${'answer_' + q.id}" th:value="${opt}"/>
+            <span th:text="${opt}">Option</span>
+          </label>
+        </div>
+
+        <!-- текстовый ввод -->
+        <div class="q-input" th:if="${q.options == null}">
+          <input type="text" th:name="${'answer_' + q.id}" placeholder="Ваш ответ" />
+        </div>
+
+        <!-- эталонный ответ (скрытый для JS) -->
+        <input type="hidden" th:id="${'ans-' + q.id}" th:value="${q.answer}" />
+        <div class="q-result" aria-live="polite"></div>
+      </div>
+
+      <div style="margin-top:18px">
+        <button id="checkAll" class="btn primary" type="button">Проверить все</button>
+      </div>
+    </form>
+  </div>
+  <div th:if="${questions == null or questions.isEmpty()}" class="no-questions">
+    <p>Заданий для вашего уровня пока нет. Попробуйте выбрать другой модуль или вернитесь позже.</p>
+  </div>
+  <div id="globalResult" style="margin-top: 12px;"></div>
+</div>
+
+<script th:src="@{/js/grammar-check.js}" src="/js/grammar-check.js" defer></script>
+</body>
+</html>

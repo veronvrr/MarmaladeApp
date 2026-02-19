@@ -1,0 +1,147 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <title>Аудирование — Marmalade</title>
+  <link rel="stylesheet" th:href="@{/css/learning.css}" href="/css/learning.css"/>
+</head>
+<body>
+<div class="learning-page">
+<div class="container">
+  <div class="top-row">
+    <a th:href="@{/dashboard(tab='learning')}" class="btn back">← К модулям</a>
+
+    <div class="user-info" th:if="${user != null}">
+      <span>Уровень: <strong th:text="${user.level}">A1</strong></span>
+    </div>
+  </div>
+  <div class="learning-header">
+  <h1>Listening practice</h1>
+    </div>
+
+  <!-- Просмотр одного аудио -->
+  <div th:if="${audio != null}">
+    <article class="audio-view">
+      <h2 th:text="${audio.title}">Audio title</h2>
+
+      <div class="audio-player">
+        <div th:if="${audio.fileName != null}">
+          <!-- путь к статике: /audios/{fileName} -->
+          <audio id="player" controls preload="metadata" th:src="@{'/audios/' + ${audio.fileName}}">
+            Ваш браузер не поддерживает audio.
+          </audio>
+        </div>
+        <div th:if="${audio.fileName == null}">
+          <p style="color:#b33">Аудиофайл отсутствует.</p>
+        </div>
+      </div>
+
+      <!-- кнопка, которая показывает/скрывает транскрипт — скрипт будет подгружаться только при клике -->
+      <div class="transcript-controls" th:if="${audio.transcript != null}">
+        <button id="toggleTranscriptBtn" class="btn ghost" type="button">Показать транскрипт</button>
+      </div>
+
+      <div id="transcriptBlock" class="transcript" style="display:none; margin-top:12px;" th:if="${audio.transcript != null}">
+        <div th:utext="${audio.transcript}"></div>
+      </div>
+
+      <!-- задания -->
+      <div class="tasks" th:if="${audio.tasks != null}">
+        <form id="listeningForm" onsubmit="return false;" th:attr="data-audio-id=${audio.id}">
+          <div th:each="task : ${audio.tasks}" class="question-card" th:attr="data-task-id=${task.id}">
+            <div class="q-prompt" th:text="${task.prompt}">Prompt</div>
+
+            <!-- вариантные ответы -->
+            <div class="q-options" th:if="${task.options != null}">
+              <label th:each="opt : ${task.options}" class="option">
+                <input type="radio" th:name="${'answer_' + task.id}" th:value="${opt}"/>
+                <span th:text="${opt}">Option</span>
+              </label>
+            </div>
+
+            <!-- текстовый ввод -->
+            <div class="q-input" th:if="${task.options == null}">
+              <input type="text" th:name="${'answer_' + task.id}" placeholder="Ваш ответ"/>
+            </div>
+
+            <!-- скрытый эталон (можно оставить для клиентской проверки, сервер — главный) -->
+            <input type="hidden" th:id="${'ans-' + task.id}" th:value="${task.answer}"/>
+            <div class="q-result" aria-live="polite"></div>
+          </div>
+
+          <div style="margin-top:18px">
+            <button id="checkBtn" class="btn primary" type="button">Проверить</button>
+            <a th:href="@{/modules/listening}" class="btn ghost">Назад к списку</a>
+            <span id="globalResult" style="margin-left:12px"></span>
+          </div>
+        </form>
+      </div>
+    </article>
+  </div>
+
+  <!-- Список аудио -->
+  <div th:if="${audio == null}">
+    <div class="reading-list">
+      <a th:each="a : ${audios}" th:href="@{/modules/listening/{id}(id=${a.id})}" class="reading-card">
+        <h3 th:text="${a.title}">Title</h3>
+        <p th:text="${a.shortPreview}">Preview</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+</div>
+<!-- Никаких внешних скриптов здесь нельзя — вместо этого добавляем минимальную «loader» логику -->
+<script>
+  // минимальный lazy-loader: когда пользователь первый раз нажмёт на кнопку, мы загрузим соответствующий файл
+  (function() {
+    const toggleBtn = document.getElementById('toggleTranscriptBtn');
+    const checkBtn = document.getElementById('checkBtn');
+
+    // helper: вставить script tag
+    function loadScriptOnce(src, onload) {
+      if (!src) return;
+      if (document.querySelector('script[src="' + src + '"]')) {
+        if (onload) onload();
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = src;
+      s.defer = true;
+      s.onload = onload;
+      document.body.appendChild(s);
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', (e) => {
+        // lazy load small transcript toggler (if you prefer, you can inline logic here)
+        loadScriptOnce('/js/listening-transcript.js', () => {
+          // функция ожидается во внешнем файле: window.initTranscriptToggle()
+          if (window.initTranscriptToggle) window.initTranscriptToggle();
+          // автоматически вызвать toggle один раз (показываем впервые)
+          const ev = new Event('toggleTranscriptRequested');
+          document.dispatchEvent(ev);
+        });
+      }, { once: true }); // once:true чтобы подгрузить файл только 1 раз
+    }
+
+    if (checkBtn) {
+      checkBtn.addEventListener('click', (e) => {
+        // при первом клике — подгружаем слушающий скрипт (если ещё не подгружен)
+        loadScriptOnce('/js/listening-check.js', () => {
+          // ожидаем, что внешний скрипт экспортирует window.initListeningChecks()
+          if (window.initListeningChecks) window.initListeningChecks();
+          // вызываем проверку прямо сейчас
+          if (window.runListeningCheck) window.runListeningCheck();
+        });
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

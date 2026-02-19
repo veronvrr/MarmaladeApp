@@ -1,0 +1,89 @@
+<!--<!doctype html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="ru">-->
+<!--<head>-->
+<!--  <meta charset="utf-8"/>-->
+<!--  <title>Добавить преподавателя</title>-->
+<!--  <link rel="stylesheet" th:href="@{/css/dashboard.css}" href="/css/dashboard.css"/>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--  <h1>Добавить преподавателя</h1>-->
+
+<!--  <form th:action="@{/admin/teachers/new}" th:object="${teacher}" method="post">-->
+<!--    <label>Имя:</label>-->
+<!--    <input type="text" th:field="*{fullName}" required/>-->
+
+<!--    <label>Язык:</label>-->
+<!--    <input type="text" th:field="*{language}" required/>-->
+
+<!--    <label>Уровень:</label>-->
+<!--    <input type="text" th:field="*{level}" required/>-->
+
+<!--    <label>Цена (€ / час):</label>-->
+<!--    <input type="number" step="0.01" th:field="*{price}" required/>-->
+
+<!--    <label>Фото (имя файла):</label>-->
+<!--    <input type="text" th:field="*{photo}"/>-->
+
+<!--    <label>Биография:</label>-->
+<!--    <textarea th:field="*{bio}"></textarea>-->
+
+<!--    <div style="margin-top:12px">-->
+<!--      <button type="submit" class="btn primary">Сохранить</button>-->
+<!--    </div>-->
+<!--  </form>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <title>Добавить преподавателя | Marmalade</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Rubik+Bubbles&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}" /> <!-- твой глобальный стиль -->
+  <link rel="stylesheet" th:href="@{/css/admin-teacher.css}" /> <!-- новый для админки -->
+</head>
+<body>
+<div class="container">
+  <h1 class="page-title">Добавить преподавателя</h1>
+
+  <form th:action="@{/admin/teachers/new}" th:object="${teacher}" method="post" class="add-form">
+    <div class="form-group">
+      <label>Имя:</label>
+      <input type="text" th:field="*{fullName}" required/>
+    </div>
+
+    <div class="form-group">
+      <label>Язык:</label>
+      <input type="text" th:field="*{language}" required/>
+    </div>
+
+    <div class="form-group">
+      <label>Уровень:</label>
+      <input type="text" th:field="*{level}" required/>
+    </div>
+
+    <div class="form-group">
+      <label>Цена (€ / час):</label>
+      <input type="number" step="0.01" th:field="*{price}" required/>
+    </div>
+
+    <div class="form-group">
+      <label>Фото (имя файла):</label>
+      <input type="text" th:field="*{photo}"/>
+    </div>
+
+    <div class="form-group">
+      <label>Биография:</label>
+      <textarea th:field="*{bio}"></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn primary">Сохранить</button>
+    </div>
+  </form>
+  <a th:href="@{/teachers}" class="btn">Открыть каталог 👩‍🏫</a>
+</div>
+</body>
+</html>

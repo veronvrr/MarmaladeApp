@@ -1,0 +1,16 @@
+package com.example.dto;
+
+public class ListeningSubmittedAnswerDto {
+    private String questionId; // numeric id as string or plain numeric in JSON
+    private String answer;
+
+    public ListeningSubmittedAnswerDto() {}
+    public ListeningSubmittedAnswerDto(String questionId, String answer) {
+        this.questionId = questionId;
+        this.answer = answer;
+    }
+    public String getQuestionId() { return questionId; }
+    public void setQuestionId(String questionId) { this.questionId = questionId; }
+    public String getAnswer() { return answer; }
+    public void setAnswer(String answer) { this.answer = answer; }
+}

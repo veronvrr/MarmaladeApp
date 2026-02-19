@@ -1,0 +1,74 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Чтение — Marmalade</title>
+  <link rel="stylesheet" th:href="@{/css/learning.css}" href="/css/learning.css"/>
+</head>
+<body>
+<div class="container">
+  <div class="top-row">
+    <a th:href="@{/dashboard(tab='learning')}" class="btn back">← К модулям</a>
+    <div class="user-info" th:if="${user != null}">
+      <span>Уровень: <strong th:text="${user.level}">A1</strong></span>
+    </div>
+  </div>
+  <div class="learning-page">
+<!--  <h1>Чтение</h1>-->
+  <div class="learning-header">
+    <h1>Reading practice</h1>
+  </div>
+  <!-- Просмотр одного текста с заданиями -->
+  <div th:if="${text != null}">
+    <article class="text-view">
+      <h2 th:text="${text.title}">Title</h2>
+      <div class="text-content" th:utext="${text.content}">Content...</div>
+
+      <div class="tasks" th:if="${text.tasks != null}">
+        <form id="readingForm" onsubmit="return false;">
+          <div th:each="task : ${text.tasks}" class="question-card" th:attr="data-task-id=${task.id}">
+            <div class="q-prompt" th:text="${task.prompt}">Prompt</div>
+
+            <!-- вариантные ответы -->
+            <div class="q-options" th:if="${task.options != null}">
+              <label th:each="opt : ${task.options}" class="option">
+                <input type="radio" th:name="${'answer_' + task.id}" th:value="${opt}"/>
+                <span th:text="${opt}">Option</span>
+              </label>
+            </div>
+
+            <!-- текстовый ввод -->
+            <div class="q-input" th:if="${task.options == null}">
+              <input type="text" th:name="${'answer_' + task.id}" placeholder="Ваш ответ"/>
+            </div>
+
+            <!-- эталонный ответ (скрытый) -->
+            <input type="hidden" th:id="${'ans-' + task.id}" th:value="${task.answer}"/>
+            <div class="q-result" aria-live="polite"></div>
+          </div>
+
+          <div style="margin-top:18px">
+            <button id="checkAll" class="btn primary" type="button">Проверить все</button>
+            <a th:href="@{/modules/reading}" class="btn ghost">Назад к текстам</a>
+          </div>
+        </form>
+      </div>
+    </article>
+  </div>
+
+  <!-- Список текстов -->
+  <div th:if="${text == null}">
+    <div class="reading-list">
+      <a th:each="t : ${texts}" th:href="@{/modules/reading/{id}(id=${t.id})}" class="reading-card">
+        <h3 th:text="${t.title}">Title</h3>
+        <p th:text="${t.shortPreview}">Preview</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+</div>
+<script th:src="@{/js/reading-check.js}" src="/js/reading-check.js" defer></script>
+</body>
+</html>

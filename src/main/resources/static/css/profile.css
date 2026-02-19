@@ -1,0 +1,179 @@
+@font-face{
+  font-family: 'RubikBubbles';
+  src: url('/fonts/RubikBubbles.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face{
+  font-family: 'MontserratCustom';
+  src: url('/fonts/Montserrat-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+/* profile.css — минимальные стили */
+/* profile.css — простой современный стиль */
+:root{
+  --bg: #FFFFFF;
+  --accent: #DE8C7D;
+  --muted: #778;
+  --card: #fff;
+  --radius: 14px;
+  --gap: 18px;
+}
+
+*{box-sizing:border-box}
+body{font-family:'MontserratCustom', Arial, sans-serif;background:var(--bg);color:#222;margin:0;padding:0}
+.container{max-width:1100px;margin:60px auto;padding:0 20px}
+.page-title{font-size:28px;margin:0 0 18px;color:#222}
+
+/* grid */
+.profile-grid{display:flex;gap:32px;align-items:flex-start}
+.profile-card{width:320px;background:var(--card);border-radius:12px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,0.06)}
+.profile-top{display:flex;gap:14px;align-items:center}
+.avatar{width:72px;height:72px;border-radius:50%;background:#F0F0F4;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:28px;color:#333}
+.profile-meta .greeting{font-size:20px;margin-bottom:6px}
+.profile-meta .sub{color:var(--muted);font-size:14px;margin-bottom:8px}
+.profile-bottom{margin-top:14px;color:#333;font-size:15px}
+
+/* edit form */
+.edit-form-wrap{flex:1}
+.profile-form{background:linear-gradient(180deg,#ffffff,#fbfbfd);padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.04)}
+.field{display:flex;flex-direction:column;margin-bottom:14px}
+.label-text{font-size:14px;color:#556;margin-bottom:8px}
+.field input[type="text"], .field select, .pw-row input[type="password"]{
+  height:48px;padding:10px 14px;border-radius:12px;border:1px solid rgba(0,0,0,0.06);font-size:16px}
+.field input[readonly]{background:#f5f6f8;color:#888}
+.inline-row{display:flex;gap:12px;align-items:center}
+.inline-row select{width:200px}
+
+/* password row */
+.pw-row{display:flex;gap:8px;align-items:center}
+.pw-toggle{background:transparent;border:none;cursor:pointer;font-size:18px;padding:6px}
+.pw-meter{height:6px;background:rgba(0,0,0,0.06);border-radius:6px;margin-top:8px;overflow:hidden}
+.pw-bar{display:block;height:100%;width:0%;background:#e74c3c;transition:width .18s ease}
+
+/* actions */
+.form-actions{display:flex;gap:12px;align-items:center;margin-top:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border-radius:10px;text-decoration:none;border:none;cursor:pointer}
+.btn.save{background:var(--accent);color:#fff;font-size:16px;min-width:140px;position:relative}
+.btn.cancel{background:#eee;color:#333}
+.spinner{display:none; width:18px;height:18px;border:2px solid rgba(255,255,255,0.4);border-top-color:rgba(255,255,255,0.9);border-radius:50%;margin-left:8px; animation:spin .9s linear infinite}
+.btn.loading .spinner{display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* flash */
+.flash{margin-top:12px;padding:10px;border-radius:8px;background:#eef8ea;color:#265a2a}
+/* ---------- Avatar: компактный и аккуратный вид ---------- */
+/* ---------- layout avatar + login ---------- */
+.avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* контейнер аватара */
+.avatar-wrap {
+  width: 120px;
+  height: 120px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f4f6f9;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  flex: 0 0 auto;
+}
+
+/* реальное изображение внутри */
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display:block;
+}
+
+/* fallback: первая буква имени */
+.avatar-fallback {
+  width: 100%;
+  height: 100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  color:#556;
+  background: linear-gradient(180deg,#fff,#f3f5f8);
+}
+
+/* блок с логином справа от аватара */
+.profile-login-block {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  align-items:flex-start;
+  min-width: 160px;
+}
+.login-label { font-size:13px; color:#7a8aa8; }
+.login-value { font-size:20px; font-weight:700; color:#222; }
+
+/* profile-bottom (язык/уровень) */
+.profile-bottom { margin-top:14px; display:flex; gap:12px; flex-wrap:wrap; color:#333; }
+
+/* ---------- avatar form: 2 кнопки одинаковой ширины ---------- */
+.avatar-form {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-top:18px;
+  flex-wrap:wrap;
+  max-width: 460px; /* ширина управляющего блока */
+}
+
+/* Скрываем нативный input внутри label */
+.file-label input[type="file"] { display: none; }
+
+/* Одинаковый стиль для кнопки-выбора и кнопки-сохранения */
+.file-label, .save-avatar {
+  flex: 1 1 180px;          /* обе займут равную ширину в ряду */
+  min-width: 160px;
+  text-align: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 6px 0 rgba(0,0,0,0.06);
+}
+
+/* визуальные различия: choose - светлый, save - фирменный */
+.file-label {
+  background: #EFEFEF;
+  color: #222;
+}
+.save-avatar {
+  background: var(--app-name-color, #DE8C7D);
+  color: #fff;
+  border: none;
+}
+
+/* подсказка по формату */
+.avatar-form .hint {
+  width: 100%;
+  font-size:13px;
+  color:#666;
+  margin-top:6px;
+}
+
+/* мобильная адаптация: кнопки стекаются */
+@media (max-width: 520px) {
+  .avatar-form { flex-direction: column; align-items: stretch; max-width:100%; }
+  .file-label, .save-avatar { width:100%; flex: none; }
+  .avatar-row { gap:12px; }
+  .avatar-wrap { width:96px; height:96px; }
+}
+
+
+/* responsive */
+@media (max-width:900px){
+  .profile-grid{flex-direction:column}
+  .profile-card{width:100%}
+  .inline-row select{width:100%}
+}

@@ -1,0 +1,120 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Лексика — Marmalade</title>
+  <link rel="stylesheet" th:href="@{/css/learning.css}" href="/css/learning.css"/>
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+<div class="container">
+  <div class="top-row">
+    <a th:href="@{/dashboard(tab='learning')}" class="btn back">← К модулям</a>
+    <div class="user-info" th:if="${user != null}"><span>Уровень: <strong th:text="${user.level}">A1</strong></span></div>
+  </div>
+  <div class="learning-page">
+  <div class="learning-header">
+  <h1>Vocabulary practice</h1>
+    </div>
+  <!-- Просмотр -->
+  <div th:if="${video != null}">
+    <article class="video-view">
+      <h2 th:text="${video.title}">Title</h2>
+
+      <div class="video-player" style="margin-bottom:12px;">
+        <div th:if="${video.fileName != null}">
+          <!-- lazy: src не указан, загружается JS при клике -->
+          <video id="vplayer" width="720" controls preload="none" poster="#" th:attr="poster=@{'/videos/' + ${video.thumbnail}}">
+            <source th:src="@{'/videos/' + ${video.fileName}}" type="video/mp4"/>
+            Ваш браузер не поддерживает video.
+          </video>
+        </div>
+      </div>
+
+      <div class="description" th:utext="${video.description}"></div>
+
+
+      <!-- кнопка, которая видна, только если есть транскрипт -->
+      <button id="toggleTranscriptBtn" class="btn ghost" type="button" th:if="${video.transcript != null}">
+        Показать транскрипт
+      </button>
+
+      <!-- контейнер транскрипта (по-умолчанию скрыт) -->
+      <div id="transcriptBlock" class="transcript" style="display:none;" th:if="${video.transcript != null}">
+        <div th:utext="${video.transcript}"></div>
+      </div>
+
+      <div class="tasks" th:if="${video.tasks != null}">
+        <form id="vocabularyForm" onsubmit="return false;" th:attr="data-video-id=${video.id}">
+          <div th:each="task : ${video.tasks}" class="question-card" th:attr="data-task-id=${task.id}">
+            <div class="q-prompt" th:text="${task.prompt}">Prompt</div>
+
+            <div class="q-options" th:if="${task.options != null}">
+              <label th:each="opt : ${task.options}" class="option">
+                <input type="radio" th:name="${'answer_' + task.id}" th:value="${opt}"/><span th:text="${opt}">Opt</span>
+              </label>
+            </div>
+
+            <div class="q-input" th:if="${task.options == null}">
+              <input type="text" th:name="${'answer_' + task.id}" placeholder="Ваш ответ"/>
+            </div>
+
+            <input type="hidden" th:id="${'ans-' + task.id}" th:value="${task.answer}" />
+            <div class="q-result" aria-live="polite"></div>
+          </div>
+
+          <div style="margin-top:18px">
+            <button id="vocabCheckBtn" class="btn primary" type="button">Проверить</button>
+            <a th:href="@{/modules/vocabulary}" class="btn ghost">Назад к видео</a>
+            <span id="globalResult" style="margin-left:12px"></span>
+          </div>
+        </form>
+      </div>
+    </article>
+  </div>
+
+  <!-- Список превью -->
+  <div th:if="${video == null}">
+    <div class="reading-list">
+      <a th:each="v : ${videos}" th:href="@{/modules/vocabulary/{id}(id=${v.id})}" class="reading-card">
+        <img th:if="${v.thumbnail != null}" th:src="@{'/videos/' + ${v.thumbnail}}" alt="thumb" style="width:160px;height:90px;object-fit:cover;float:left;margin-right:12px"/>
+        <h3 th:text="${v.title}">Title</h3>
+        <p th:text="${v.shortPreview}">Preview</p>
+        <div style="clear:both"></div>
+      </a>
+    </div>
+  </div>
+</div>
+  </div>
+<script>
+  (function() {
+    const toggleBtn = document.getElementById('toggleTranscriptBtn');
+
+    function loadScriptOnce(src, onload) {
+      if (!src) return;
+      if (document.querySelector('script[src="' + src + '"]')) {
+        if (onload) onload();
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = src;
+      s.defer = true;
+      s.onload = onload;
+      document.body.appendChild(s);
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', (e) => {
+        loadScriptOnce('/js/listening-transcript.js', () => {
+          if (window.initTranscriptToggle) window.initTranscriptToggle();
+          // посылаем событие — слушатель внутри модуля подхватит его и сделает toggle()
+          document.dispatchEvent(new Event('toggleTranscriptRequested'));
+        });
+      }, { once: true }); // once = true — подгрузка только 1 раз
+    }
+  })();
+</script>
+
+<script src="/js/vocabulary-check.js" defer></script>
+</body>
+</html>

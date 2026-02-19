@@ -1,0 +1,180 @@
+@font-face{
+  font-family: 'RubikBubbles';
+  src: url('/fonts/RubikBubbles.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face{
+  font-family: 'MontserratCustom';
+  src: url('/fonts/Montserrat-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* базовые переменные — при необходимости подправь */
+:root{
+  --bg: #F9BEDD;
+  --app-name-color: #DE8C7D;
+  --title-color: #FFFFFF;
+  --input-bg: #FFFFFF;
+  --btn-bg: #B298E7;
+
+  --form-width: 450.27px;
+  --input-height: 56px;
+  --border-radius: 25px;
+  --group-gap: 28px;
+  --inner-gap: 20px;
+}
+
+/* reset */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:'MontserratCustom', Arial, sans-serif;color:#222}
+.page-wrap{
+  min-height:100vh;
+  background:var(--bg);
+  padding:60px;
+  position:relative;
+}
+
+/* TITLES — по центру всей страницы */
+.titles{
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  transform: translateX(-50%);
+  text-align:center;
+  z-index: 20;
+  pointer-events: none;
+}
+.greeting{ font-family:'MontserratCustom'; font-size:48px; color:var(--title-color); margin:0 0 8px 0; }
+.headline{ font-family:'MontserratCustom'; font-weight:600; font-size:96px; color:var(--title-color); margin:0; line-height:1; }
+
+/* колонки */
+.columns{ display:flex; gap:40px; align-items:stretch; }
+
+/* Левая колонка */
+.left-col{ width:50%; max-width:740px; display:flex; flex-direction:column; align-items:flex-start; }
+.app-header{ display:flex; align-items:center; gap:12px; margin-bottom:12px; z-index:10; }
+.logo{ width:80px; height:80px; object-fit:contain; }
+.app-name{ font-family:'RubikBubbles', 'MontserratCustom'; font-size:48px; color:var(--app-name-color); }
+.hero-wrap{ margin-top:140px; } /* подвинуть картинку чуть ниже если нужно */
+.hero-image{ width:568px; height:651px; object-fit:cover; display:block; }
+
+/* Правая колонка: форма прижата к нижней границе, чтобы совпадать с картинкой */
+.right-col{
+  width:50%;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  position:relative;
+  padding-bottom: 0;
+}
+
+/* Форма-контейнер */
+.form-container{
+  width: var(--form-width);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  z-index:15;
+}
+
+/* Форма */
+.login-form{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* Поля */
+.field{ width:100%; margin-bottom: 12px; position:relative; }
+.field input[type="text"],
+.field input[type="password"]{
+  width:100%;
+  height: var(--input-height);
+  padding: 18px 64px 12px 26px; /* справа место для глазика */
+  font-size:32px;
+  font-family:'MontserratCustom';
+  color:#000;
+  background: var(--input-bg);
+  border:none;
+  border-radius: var(--border-radius);
+  box-shadow: 0 6px 0 rgba(0,0,0,0.08);
+  outline:none;
+  transition: box-shadow 160ms, transform 120ms;
+}
+
+/* Floating labels */
+.field.floating { position: relative; }
+.field.floating label {
+  position: absolute;
+  left: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 160ms ease;
+  font-size: 20px;
+  color: #6b6b6b;
+  pointer-events: none;
+  padding: 0 6px;
+  background: transparent;
+}
+.field.floating input:focus + label,
+.field.floating input:not(:placeholder-shown) + label,
+.field.floating input.filled + label {
+  top: 6px;
+  transform: none;
+  font-size: 14px;
+  color: #fff; /* при фокусе можно сделать цвет другим, но у нас фон розовый — оставим белый для заголовков, метка станет темнее */
+  color: rgba(0,0,0,0.75);
+}
+
+/* Фокус поля */
+.field.floating input:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.10);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Password eye */
+.password-field .pw-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 6px;
+  color: #444;
+}
+
+/* gap между полями и кнопкой */
+.group-gap { height: var(--group-gap); width:100%; }
+
+/* Кнопка */
+.action{ width:100%; margin-top:0; }
+.action .btn-primary{
+  width:100%;
+  height: var(--input-height);
+  border-radius: var(--border-radius);
+  border:none;
+  background: linear-gradient(180deg, var(--btn-bg), #9c7de0);
+  color:#fff;
+  font-size:32px;
+  font-family:'MontserratCustom';
+  box-shadow: 0 6px 0 rgba(0,0,0,0.08);
+  cursor:pointer;
+  transition: transform 160ms, box-shadow 160ms;
+}
+.action .btn-primary:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.12); }
+
+/* Адаптив */
+@media (max-width:1000px){
+  .columns{ flex-direction:column; }
+  .left-col, .right-col{ width:100%; }
+  .titles{ position:relative; left:auto; transform:none; top:auto; margin-bottom:18px; }
+  .hero-image{ width:100%; height:auto; max-width:460px; }
+  .headline{ font-size:48px; }
+  .right-col{ align-items:center; }
+  .form-container{ transform:none; }
+}

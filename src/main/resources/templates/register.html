@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Регистрация — Marmalade</title>
+
+    <!-- подключаем CSS (из static -> css) -->
+    <link rel="stylesheet" href="/css/register.css" />
+</head>
+<body>
+<div class="page-wrap">
+
+    <!-- TITLES: центр по всей странице -->
+    <div class="titles">
+        <div class="greeting">Приветствую,</div>
+        <h1 class="headline">Давай начнём!</h1>
+    </div>
+
+    <!-- Двухколоночная верстка: левая - изображение, правая - форма -->
+    <div class="columns">
+        <aside class="left-col">
+            <header class="app-header">
+                <img src="/images/logo-small.png" alt="Marmalade logo" class="logo" />
+                <div class="app-name">Marmalade</div>
+            </header>
+
+            <div class="hero-wrap">
+                <img src="/images/padreg.png" alt="Paddington" class="hero-image" />
+            </div>
+        </aside>
+
+        <main class="right-col">
+            <div class="form-container">
+
+<!--                </form>-->
+<!--                <form class="register-form" action="/register" method="post" novalidate>-->
+<!--                    &lt;!&ndash; Если у тебя CSRF включён (Spring Security), вставь токен: &ndash;&gt;-->
+<!--&lt;!&ndash;                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">&ndash;&gt;-->
+<!--                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+
+<!--                    <div class="field floating">-->
+<!--                        <input id="username" name="username" type="text" placeholder=" " required autocomplete="username" />-->
+<!--                        <label for="username">Имя</label>-->
+<!--                    </div>-->
+
+<!--                    <div class="field floating password-field">-->
+<!--                        <input id="password" name="password" type="password" placeholder=" " required autocomplete="new-password" />-->
+<!--                        <label for="password">Пароль</label>-->
+
+<!--                        &lt;!&ndash; глазик: пока неактивен (pointer-events:none) — но я дам код для активности в JS &ndash;&gt;-->
+<!--                        <button type="button" class="pw-toggle" aria-label="Показать пароль">🙈</button>-->
+<!--                    </div>-->
+
+<!--                    <div class="group-gap"></div>-->
+
+<!--                    &lt;!&ndash; selects-row оставляем как есть, но обернём select в .select-with-note (у тебя уже так) &ndash;&gt;-->
+<!--                    <div class="select-wrap">-->
+<!--                        <div class="select-with-note">-->
+<!--                            <label class="visually-hidden" for="preferredLanguage">Язык</label>-->
+<!--                            <select id="preferredLanguage" name="preferredLanguage" required>-->
+<!--                                <option value="" disabled selected>Язык</option>-->
+<!--                                <option value="en">Английский</option>-->
+<!--                            </select>-->
+<!--                            <div class="select-note">Новые языки будут добавлены совсем скоро!</div>-->
+<!--                        </div>-->
+
+<!--                        <div class="select-with-note">-->
+<!--                            <label class="visually-hidden" for="level">Уровень</label>-->
+<!--                            <select id="level" name="level" required>-->
+<!--                                <option value="" disabled selected>Уровень</option>-->
+<!--                                <option value="A1">A1</option>-->
+<!--                                <option value="A2">A2</option>-->
+<!--                                <option value="B1">B1</option>-->
+<!--                                <option value="B2">B2</option>-->
+<!--                                <option value="C1">C1</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+
+<!--                    <div class="group-gap"></div>-->
+
+<!--                    <div class="field action">-->
+<!--                        <button type="submit" class="btn-primary">Создать аккаунт</button>-->
+<!--                    </div>-->
+<!--                </form>-->
+                <form class="register-form" th:action="@{/register}" th:object="${userForm}" method="post" novalidate>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                    <div class="field floating">
+                        <input id="username" th:field="*{username}" type="text" placeholder=" " autocomplete="username" />
+                        <label for="username">Имя</label>
+                        <!-- вывод ошибки для username -->
+                        <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></div>
+                    </div>
+
+                    <div class="field floating password-field">
+                        <input id="password" th:field="*{password}" type="password" placeholder=" " autocomplete="new-password" />
+                        <label for="password">Пароль</label>
+                        <button type="button" class="pw-toggle" aria-label="Показать пароль">🙈</button>
+                        <!-- вывод ошибки для password -->
+                        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div>
+                    </div>
+
+                    <div class="select-wrap">
+                        <div class="select-with-note">
+                            <select id="preferredLanguage" th:field="*{preferredLanguage}">
+                                <option value="" disabled selected>Язык</option>
+                                <option value="en">Английский</option>
+                            </select>
+                            <div class="select-note">Новые языки будут добавлены совсем скоро!</div>
+                        </div>
+
+                        <div class="select-with-note">
+                            <select id="level" th:field="*{level}">
+                                <option value="" disabled selected>Уровень</option>
+                                <option value="A1">A1</option>
+                                <option value="A2">A2</option>
+                                <option value="B1">B1</option>
+                                <option value="B2">B2</option>
+                                <option value="C1">C1</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field action">
+                        <button type="submit" class="btn-primary">Создать аккаунт</button>
+                    </div>
+
+                    <!-- глобальная ошибка (например, логин уже существует) -->
+                    <div th:if="${error}" class="error" th:text="${error}"></div>
+                </form>
+
+            </div>
+        </main>
+    </div>
+
+</div>
+<script src="/js/register.js"></script>
+
+
+</body>
+</html>

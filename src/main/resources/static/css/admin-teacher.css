@@ -1,0 +1,71 @@
+.page-title {
+  font-family: 'Rubik Bubbles', cursive;
+  font-size: 48px;
+  color: #DE8C7D;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 40px;
+  background: #B8E3E9; /* пастельный фон */
+  border-radius: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.add-form .form-group {
+  margin-bottom: 24px;
+}
+
+.add-form label {
+  display: block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  color: #597FB1;
+  margin-bottom: 8px;
+}
+
+.add-form input, .add-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #DDD;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  background: #F9F9F9;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-form input:focus, .add-form textarea:focus {
+  border: 1px solid #B298E7;
+  box-shadow: 0 0 8px rgba(178, 152, 231, 0.3);
+  outline: none;
+}
+
+.add-form textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.form-actions {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.btn.primary {
+  background: #B298E7;
+  color: white;
+  padding: 12px 32px;
+  border-radius: 24px;
+  font-size: 18px;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 8px 20px rgba(178, 152, 231, 0.4);
+}
+
+.btn.primary:hover {
+  background: #A98FE0;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(178, 152, 231, 0.5);
+}

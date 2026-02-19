@@ -1,0 +1,89 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="ru" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="utf-8" />-->
+<!--    <meta name="viewport" content="width=device-width,initial-scale=1" />-->
+<!--    <title>Marmalade — Добро пожаловать</title>-->
+
+<!--    &lt;!&ndash; подключаем CSS &ndash;&gt;-->
+<!--    <link rel="stylesheet" th:href="@{/css/index.css}" />-->
+<!--</head>-->
+<!--&lt;!&ndash; ...в head остаётся как раньше... &ndash;&gt;-->
+
+<!--<body>-->
+<!--<main class="hero">-->
+<!--    <div class="hero-inner">-->
+
+<!--        <div class="hero-left">-->
+<!--            <img class="hero-image" th:src="@{/images/paddington.png}" alt="Marmalade Mascot" />-->
+<!--        </div>-->
+
+<!--        <div class="hero-right">-->
+<!--            &lt;!&ndash; Верхняя часть: текст (чуть выше центра) &ndash;&gt;-->
+<!--            <div class="right-top">-->
+<!--                <p class="welcome-small">Добро пожаловать в</p>-->
+<!--                <h1 class="brand">Marmalade</h1>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Нижняя часть: кнопки (по центру и ближе к низу) &ndash;&gt;-->
+<!--            <div class="right-bottom">-->
+<!--                <div class="buttons">-->
+<!--                    <a th:href="@{/register}" class="btn primary">Зарегистрироваться</a>-->
+<!--                    <a th:href="@{/login}" class="btn secondary">Войти</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--    </div>-->
+<!--</main>-->
+<!--</body>-->
+
+<!--</html>-->
+
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Marmalade — Добро пожаловать</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/index.css" th:href="@{/css/index.css}" />
+</head>
+<body>
+<main class="hero" role="main" aria-labelledby="hero-title">
+    <div class="hero-inner">
+
+        <div class="hero-left" aria-hidden="true">
+            <img class="hero-image" src="/images/paddington.png" th:src="@{/images/paddington.png}" alt="Marmalade Mascot" />
+        </div>
+
+        <div class="hero-right">
+            <!-- Верхняя часть -->
+            <div class="right-top">
+                <p class="welcome-small">Добро пожаловать в</p>
+                <h1 class="brand" id="hero-title">Marmalade</h1>
+            </div>
+
+            <!-- Нижняя часть -->
+            <div class="right-bottom">
+                <div class="buttons" role="navigation" aria-label="Навигация">
+                    <a th:href="@{/register}" href="/register" class="btn btn-primary">Зарегистрироваться</a>
+                    <a th:href="@{/login}" href="/login" class="btn btn-secondary">Войти</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- (опционально) небольшой JS-файл для улучшения анимации — не обязателен -->
+<script>
+    // weak-функция: задержка появления
+    document.addEventListener('DOMContentLoaded', () => {
+      // если нужно, можно динамически добавлять класс .animate-ready
+      // document.querySelector('.hero-inner').classList.add('animate-ready');
+    });
+</script>
+</body>
+</html>

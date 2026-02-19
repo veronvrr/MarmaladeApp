@@ -1,0 +1,277 @@
+
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Marmalade — Панель</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" href="/css/dashboard.css"/>
+</head>
+<body>
+
+<div class="page" th:attr="data-active-tab=${activeTab}">
+    <!-- left sidebar -->
+    <aside class="sidebar-wrap">
+        <header class="app-header">
+            <div class="app-name-wrap">
+                <!-- маленький логотип (можешь заменить на своё изображение) -->
+                <img th:src="@{/images/logo-small.png}" src="/images/logo-small.png" alt="logo" class="logo"/>
+                <div class="app-name">Marmalade</div>
+            </div>
+        </header>
+
+        <nav class="sidebar" aria-label="Главное меню">
+            <ul class="sidebar-list" role="tablist">
+                <li class="sidebar-item" role="tab" data-tab="learning" aria-selected="false" tabindex="0">
+                    <!-- Trophy icon (Material-like) -->
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 3H6v2a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5V3zM4 8v2a7 7 0 0 0 7 7v2H9v2h6v-2h-2v-2a7 7 0 0 0 7-7V8H4z"/></svg>
+                    <span class="sidebar-label">Обучение</span>
+                </li>
+
+                <li class="sidebar-item" role="tab" data-tab="tutors" aria-selected="false" tabindex="0">
+                    <!-- Book icon -->
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6v13a1 1 0 0 0 1 1h13V4H5a1 1 0 0 0-1 1zM6 8h10v9H6V8z"/></svg>
+                    <span class="sidebar-label">Репетиторы</span>
+                </li>
+
+                <li class="sidebar-item" role="tab" data-tab="profile" aria-selected="false" tabindex="0">
+                    <!-- Person icon -->
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20v-1a6 6 0 0 1 12 0v1H4z"/></svg>
+                    <span class="sidebar-label">Профиль</span>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- right content -->
+    <main class="content-wrap">
+        <div id="toast" class="toast" th:if="${toast}" th:text="${toast}"></div>
+
+        <section class="tab-content" data-tab-content="learning" th:classappend="${activeTab}=='learning' ? 'show' : ''">
+                    <div class="modules-list">
+                        <a class="module-card module-grammar" href="/modules/grammar" aria-label="Модуль: Грамматика">
+                            <div class="module-left">
+                                <img src="/images/grammar.png" alt="Грамматика" class="module-icon-img"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block'"/>
+                                <span class="module-emoji" style="display:none">💬</span>
+                                <div class="module-title">Грамматика</div>
+                            </div>
+                            <div class="module-desc">Учись в диалогах — почувствуй времена!</div>
+                        </a>
+
+                        <a class="module-card module-listening" href="/modules/listening" aria-label="Модуль: Аудирование">
+                            <div class="module-left">
+                                <img src="/images/listening.png" alt="Аудирование" class="module-icon-img"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block'"/>
+                                <span class="module-emoji" style="display:none">🎧</span>
+                                <div class="module-title">Аудирование</div>
+                            </div>
+                            <div class="module-desc">Погружайся в истории и тренируй ухо!</div>
+                        </a>
+
+                        <a class="module-card module-reading" href="/modules/reading" aria-label="Модуль: Чтение">
+                            <div class="module-left">
+                                <img src="/images/reading.png" alt="Чтение" class="module-icon-img"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block'"/>
+                                <span class="module-emoji" style="display:none">📖</span>
+                                <div class="module-title">Чтение</div>
+                            </div>
+                            <div class="module-desc">Каждый текст открывает новые слова и смыслы!</div>
+                        </a>
+
+                        <a class="module-card module-vocabulary" href="/modules/vocabulary" aria-label="Модуль: Лексика">
+                            <div class="module-left">
+                                <img src="/images/vocabulary.png" alt="Лексика" class="module-icon-img"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block'"/>
+                                <span class="module-emoji" style="display:none">🎞️</span>
+                                <div class="module-title">Лексика</div>
+                            </div>
+                            <div class="module-desc">Видео показывает, как язык звучит в жизни!</div>
+                        </a>
+                    </div>
+            <div class="placeholder-area" id="module-placeholder" aria-live="polite">
+
+                                <p class="hint">Нажмите на карточку модуля, чтобы увидеть задания.</p>
+                            </div>
+                        </section>
+<!--                    &lt;!&ndash; Tutors tab &ndash;&gt;-->
+<!--        <section class="tab-content" data-tab-content="tutors" th:classappend="${activeTab}=='tutors' ? 'show' : ''">-->
+<!--            <h2 class="content-title">Репетиторы</h2>-->
+<!--            <p class="content-sub">Каталог преподавателей</p>-->
+
+<!--            <div class="tutors-grid">-->
+<!--                &lt;!&ndash; примеры карточек (пометил static placeholders) &ndash;&gt;-->
+<!--                <article class="tutor-card">-->
+<!--                    <div class="tutor-photo" style="background-image:url('/images/tutor1.png')"></div>-->
+<!--                    <div class="tutor-info">-->
+<!--                        <div class="tutor-name">Иван Иванов</div>-->
+<!--                        <div class="tutor-meta">Английский — B2 • 25€ / час</div>-->
+<!--                        <a class="btn small" href="#" role="button">Оставить заявку</a>-->
+<!--                    </div>-->
+<!--                </article>-->
+
+<!--                <article class="tutor-card">-->
+<!--                    <div class="tutor-photo" style="background-image:url('/images/tutor2.png')"></div>-->
+<!--                    <div class="tutor-info">-->
+<!--                        <div class="tutor-name">Мария Петрова</div>-->
+<!--                        <div class="tutor-meta">Английский — C1 • 30€ / час</div>-->
+<!--                        <a class="btn small" href="#" role="button">Оставить заявку</a>-->
+<!--                    </div>-->
+<!--                </article>-->
+
+<!--                &lt;!&ndash; можно генерировать из БД позже &ndash;&gt;-->
+<!--            </div>-->
+<!--        </section>-->
+
+<!--        &lt;!&ndash; Tutors tab &ndash;&gt;-->
+<!--        <section class="tab-content" data-tab-content="tutors" role="tabpanel" aria-hidden="true"-->
+<!--                 th:classappend="${activeTab}=='tutors' ? 'show' : ''">-->
+<!--            <h2 class="content-title">Репетиторы</h2>-->
+<!--            <p class="content-sub">Каталог преподавателей — кликните на карточку, чтобы открыть страницу преподавателя</p>-->
+<!--            -->
+
+<!--            <div class="tutors-grid">-->
+<!--                <article th:each="t : ${tutorsPreview}" class="tutor-card">-->
+<!--                    <div class="tutor-photo"-->
+<!--                         th:style="'background-image: url(' + (t.photo != null ? '/images/' + t.photo : '/images/teacher-placeholder.png') + ');'"></div>-->
+<!--                    <div class="tutor-info">-->
+<!--                        <div class="tutor-name" th:text="${t.fullName}">Имя Фамилия</div>-->
+<!--                        <div class="tutor-meta" th:text="${t.language} + ' • ' + t.level">Английский • B2</div>-->
+<!--                        <div class="tutor-price" th:text="${t.price} != null ? t.price + '€ / ч' : ''">25€ / ч</div>-->
+<!--                        <div style="margin-top:8px"><a th:href="@{/teachers/{id}(id=${t.id})}" class="btn small">Подробнее</a></div>-->
+<!--                    </div>-->
+<!--                </article>-->
+<!--            </div>-->
+
+<!--            <div style="margin-top:16px">-->
+<!--                <a th:href="@{/teachers}" class="btn">Открыть каталог</a>-->
+<!--            </div>-->
+<!--        </section>-->
+
+
+        <!-- Tutors tab в dashboard.html: показываем только превью -->
+<!--        <section class="tab-content" data-tab-content="tutors" role="tabpanel" aria-hidden="true"-->
+<!--                 th:classappend="${activeTab}=='tutors' ? 'show' : ''">-->
+<!--            <h2 class="content-title">Репетиторы</h2>-->
+<!--            <p class="content-sub">Каталог преподавателей — кликните «Открыть каталог» для полного списка</p>-->
+
+<!--            <div class="tutors-grid">-->
+<!--                <article th:each="t : ${tutorsPreview}" class="tutor-card">-->
+
+<!--                    <img class="tutor-photo" th:src="@{'/images/teachers/' + ${t.photo}}" alt="Фото преподавателя"/>-->
+
+<!--                    <div class="tutor-info">-->
+<!--                        <div class="tutor-name" th:text="${t.fullName}">Имя Фамилия</div>-->
+<!--                        <div class="tutor-meta" th:text="${t.language}">Английский</div>-->
+<!--                        <div style="margin-top:8px">-->
+<!--                            <a th:href="@{/teachers/{id}(id=${t.id})}" class="btn small">Подробнее</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </article>-->
+<!--            </div>-->
+
+<!--            <div style="margin-top:16px">-->
+<!--                <a th:href="@{/teachers}" class="btn">Открыть каталог</a>-->
+<!--            </div>-->
+<!--        </section>-->
+        <!-- Tutors preview: горизонтальные вытянутые карточки -->
+        <section class="tab-content tutors-preview" data-tab-content="tutors" role="tabpanel"
+                 th:classappend="${activeTab}=='tutors' ? 'show' : ''" aria-hidden="true">
+            <h2 class="content-title">Найди своего репетитора!</h2>
+            <p class="content-sub">Каталог преподавателей — кликните «Открыть каталог» для полного списка</p>
+
+            <div class="tutors-row" role="list" aria-label="Превью преподавателей">
+                <article th:each="t, stat : ${tutorsPreview}" th:if="${t != null}"
+                         class="tutor-card" role="listitem" tabindex="0"
+                         th:data-teacher-id="${t.id}" th:onclick="'location.href=\'/teachers/' + ${t.id} + '\';'">
+                    <div class="tutor-text">
+                        <div class="tutor-name" th:text="${t.fullName}">Имя Фамилия</div>
+                        <div class="tutor-meta">
+                            <span class="tutor-level" th:text="${t.level}">B2</span>
+                            <span class="dot">•</span>
+                            <span class="tutor-language" th:text="${t.language}">Английский</span>
+                        </div>
+                    </div>
+
+                    <div class="tutor-photo-wrap">
+                        <img class="tutor-photo"
+                             th:if="${t.photo != null}"
+                             th:src="@{'/images/teachers/' + ${t.photo}}"
+                             th:alt="${t.fullName} + ' — фото преподавателя'"/>
+                        <img class="tutor-photo"
+                             th:if="${t.photo == null}"
+                             src="/images/teacher-placeholder.png"
+                             alt="Фото преподавателя (заглушка)"/>
+                    </div>
+                </article>
+            </div>
+
+            <div class="tutors-actions">
+                <a th:href="@{/teachers}" class="btn">Открыть каталог</a>
+            </div>
+        </section>
+
+        <!-- Profile tab -->
+
+        <section class="tab-content" data-tab-content="profile"
+                 th:classappend="${activeTab}=='profile' ? 'show' : ''">
+            <!-- верхняя строка: иконка + логин -->
+<!--            <div class="profile-header">-->
+<!--                <svg class="icon profile-icon" viewBox="0 0 24 24">-->
+<!--                    <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20v-1a6 6 0 0 1 12 0v1H4z"/>-->
+<!--                </svg>-->
+
+<!--                <span class="profile-login" th:text="${user?.username}">username</span>-->
+<!--            </div>-->
+            <div class="profile-header">
+                <div class="profile-header-left">
+                    <img th:if="${user?.avatarFilename != null}" th:src="@{'/avatars/' + ${user.avatarFilename}}"
+                         alt="avatar" class="profile-avatar-small" />
+                    <div th:if="${user?.avatarFilename == null}" class="profile-avatar-placeholder" aria-hidden="true">
+                        <svg class="icon profile-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20v-1a6 6 0 0 1 12 0v1H4z"/></svg>
+                    </div>
+                </div>
+
+                <div class="profile-login-wrap">
+                    <span class="profile-login" th:text="${user?.username}">username</span>
+                </div>
+            </div>
+
+            <!-- крупный приветственный блок -->
+            <div class="profile-greeting-block">
+                <h1 class="hello-text">Привет, <span th:text="${user?.fullName}">Имя</span>!</h1>
+                <p class="motivation-text">Хочешь провести свой день продуктивно и увлекательно с Marmalade?</p>
+            </div>
+
+            <!-- блок с языком и уровнем -->
+            <div class="profile-info-block">
+                <div><strong>Выбранный язык:</strong> <span th:text="${user?.preferredLanguage}">English</span></div>
+                <div><strong>Уровень:</strong> <span th:text="${user?.level}">A1</span></div>
+            </div>
+
+            <!-- блок с кнопками -->
+            <div class="profile-actions">
+                <a class="btn action-btn" th:href="@{/profile/edit}">Редактировать</a>
+                <form th:action="@{/logout}" method="post" style="display:inline">
+                    <button class="btn action-btn" type="submit">Выйти</button>
+                </form>
+                <a th:href="@{/my/requests}" class="btn ghost small">Мои заявки</a>
+            </div>
+<!--            &lt;!&ndash; где-нибудь в блоке профиля &ndash;&gt;-->
+<!--            <div class="profile-actions">-->
+<!--                <a th:href="@{/my/requests}" class="btn ghost small">Мои заявки</a>-->
+<!--            </div>-->
+
+        </section>
+
+    </main>
+</div>
+
+<!-- JS -->
+<script th:src="@{/js/dashboard.js}" src="/js/dashboard.js"></script>
+<script th:src="@{/js/profile.js}" src="/js/profile.js"></script>
+
+</body>
+</html>

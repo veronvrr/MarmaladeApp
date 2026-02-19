@@ -1,0 +1,116 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="ru" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="utf-8">-->
+<!--    <title>Вход — Marmalade</title>-->
+<!--    <meta name="viewport" content="width=device-width,initial-scale=1">-->
+<!--    <link rel="stylesheet" th:href="@{/css/register.css}">-->
+<!--</head>-->
+<!--<body>-->
+<!--<main style="padding:60px;">-->
+<!--    <div style="max-width:600px;margin:0 auto;">-->
+<!--        <h2 style="font-family:Montserrat, sans-serif; color:#597FB1; font-size:48px;">Вход</h2>-->
+
+<!--        <form th:action="@{/login}" method="post">-->
+<!--            &lt;!&ndash; CSRF &ndash;&gt;-->
+<!--            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+
+<!--            <div style="margin:18px 0;">-->
+<!--                <input name="username" type="text" placeholder="Логин"-->
+<!--                       style="width:100%;height:56px;padding:0 20px;font-size:32px;font-family:Montserrat;">-->
+<!--            </div>-->
+
+<!--            <div style="margin:18px 0;">-->
+<!--                <input name="password" type="password" placeholder="Пароль"-->
+<!--                       style="width:100%;height:56px;padding:0 20px;font-size:32px;font-family:Montserrat;">-->
+<!--            </div>-->
+
+<!--            <div style="margin-top:22px;">-->
+<!--                <button type="submit" style="width:100%;height:56px;background:#B298E7;color:#fff;border:none;-->
+<!--                 font-size:32px;font-family:Montserrat;border-radius:8px;">Войти</button>-->
+<!--            </div>-->
+<!--        </form>-->
+
+<!--        <p style="margin-top:16px;font-family:Montserrat;">-->
+<!--            <a th:href="@{/register}">Создать аккаунт</a>-->
+<!--        </p>-->
+
+<!--        <div th:if="${param.error}" style="color:red;margin-top:10px;">-->
+<!--            Неверные учетные данные.-->
+<!--        </div>-->
+<!--        <div th:if="${param.logout}" style="color:green;margin-top:10px;">-->
+<!--            Успешный выход.-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</main>-->
+<!--</body>-->
+<!--</html>-->
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Вход — Marmalade</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/login.css" />
+
+</head>
+<body>
+<div class="page-wrap">
+
+    <!-- TITLES по центру всей страницы -->
+    <div class="titles">
+        <div class="greeting">С возвращением,</div>
+        <h1 class="headline">Выполни вход.</h1>
+    </div>
+
+    <div class="columns">
+        <!-- Левая колонка — логотип + картинка -->
+        <aside class="left-col">
+            <header class="app-header">
+                <img src="/images/logo-small.png" alt="Marmalade logo" class="logo" />
+                <div class="app-name">Marmalade</div>
+            </header>
+
+            <div class="hero-wrap">
+                <img src="/images/padlog.png" alt="Paddington" class="hero-image" />
+            </div>
+        </aside>
+
+        <!-- Правая колонка — форма -->
+        <main class="right-col">
+            <div class="form-container">
+                <!-- форма отправляется на /login (Spring Security) -->
+                <!-- Thymeleaf: подставит CSRF токен автоматически -->
+                <form class="login-form" th:action="@{/login}" action="/login" method="post" novalidate>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                    <!-- Имя (username) -->
+                    <div class="field floating">
+                        <input id="username" name="username" type="text" placeholder=" " required autocomplete="username" />
+                        <label for="username">Имя</label>
+                    </div>
+
+                    <!-- Пароль -->
+                    <div class="field floating password-field">
+                        <input id="password" name="password" type="password" placeholder=" " required autocomplete="current-password" />
+                        <label for="password">Пароль</label>
+                        <button type="button" class="pw-toggle" aria-label="Показать пароль">🙈</button>
+                    </div>
+
+                    <div class="group-gap"></div>
+
+                    <div class="field action">
+                        <button class="btn-primary" type="submit">Продолжить &gt;</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="/js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+.page-title {
+  font-family: 'Rubik Bubbles', cursive;
+  font-size: 48px;
+  color: #DE8C7D;
+  text-align: center;
+  margin: 40px 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+  background: #B8E3E9; /* пастельный фон */
+  border-radius: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.no-requests {
+  text-align: center;
+  font-size: 24px;
+  color: #666;
+  margin: 60px 0;
+}
+
+.requests-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #FFFFFF;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.requests-table th {
+  background: #B298E7;
+  color: white;
+  padding: 16px;
+  text-align: left;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+}
+
+.requests-table td {
+  padding: 16px;
+  border-bottom: 1px solid #DDD;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #333;
+}
+
+.requests-table tr:nth-child(even) {
+  background: #F9F9F9;
+}
+
+.student-info {
+  font-weight: 600;
+  color: #597FB1;
+}
+
+.status {
+  font-weight: bold;
+  color: #8AA878; /* зеленый для PENDING, можно менять по статусу */
+}
+
+.inline-form {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.btn.approve {
+  background: #CAE9B8; /* зеленый */
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 16px;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.btn.approve:hover {
+  background: #A8DADC;
+  transform: translateY(-2px);
+}
+
+.btn.reject {
+  background: #FF9D9D; /* красный */
+  color: white;
+  padding: 8px 16px;
+  border-radius: 16px;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.btn.reject:hover {
+  background: #FF7A7A;
+  transform: translateY(-2px);
+}

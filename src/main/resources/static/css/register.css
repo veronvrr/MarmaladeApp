@@ -1,0 +1,447 @@
+@font-face{
+  font-family: 'RubikBubbles';
+  src: url('/fonts/RubikBubbles.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face{
+  font-family: 'MontserratCustom';
+  src: url('/fonts/Montserrat-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* Переменные */
+:root{
+  --bg: #B8E3E9;
+  --app-name-color: #DE8C7D;
+  --title-color: #597FB1;
+  --input-bg: #FFFFFF;
+  --select-bg: #CAE9B8;
+  --btn-bg: #B298E7;
+
+  --form-width: 450.27px;   /* ширина единой "границы" */
+  --select-width: 215px;
+  --input-height: 56px;
+  --border-radius: 25px;
+
+  /* основной вертикальный шаг между логическими группами:
+     - между Имя и Пароль
+     - между строкой селектов и кнопкой */
+  --group-gap: 24px;
+
+  /* расстояние между элементами внутри "строки" (например, между селектами) */
+  --inner-gap: 20px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:'MontserratCustom', Arial, sans-serif;color:#222}
+.page-wrap{
+  min-height:100vh;
+  background:var(--bg);
+  padding:60px;
+  position:relative;
+}
+
+/* TITLES по центру всей страницы (не трогаем) */
+.titles{
+  position: absolute;
+  left: 50%;
+  top: 20%; 
+  transform: translateX(-50%);
+  text-align:center;
+  z-index: 20;
+  pointer-events: none;
+}
+.greeting{ font-family:'MontserratCustom'; font-size:48px; color:var(--title-color); margin:0 0 8px 0; }
+.headline{ font-family:'MontserratCustom'; font-weight:600; font-size:96px; color:var(--title-color); margin:0; line-height:1; }
+
+/* колонки */
+.columns{ display:flex; gap:40px; align-items:stretch; }
+
+/* Левая колонка */
+.left-col{ width:50%; max-width:740px; display:flex; flex-direction:column; align-items:flex-start; }
+.app-header{ display:flex; align-items:center; gap:12px; margin-bottom:12px; z-index:10; }
+.logo{ width:80px; height:80px; object-fit:contain; }
+.app-name{ font-family:'RubikBubbles', 'MontserratCustom'; font-size:48px; color:var(--app-name-color); }
+.hero-wrap{ margin-top:200px; }
+.hero-image{ width:568px; height:651px; object-fit:cover; display:block;  }
+
+
+/* Правая колонка — ВАЖНО: выравниваем содержимое по нижней границе,
+   чтобы селекты и кнопка располагались по нижней границе фото */
+.right-col{
+  width:50%;
+  display:flex;
+  align-items:flex-end;     /* <- делает так, что содержимое "прижимается" вниз правой колонны */
+  justify-content:center;
+  position:relative;
+  padding-bottom: 0;        /* можно регулировать дополнительный отступ снизу */
+}
+
+/* Форма-контейнер: фиксированная ширина (единый блок), 
+   и вертикальный порядок (имя, пароль, gap, селекты, gap, кнопка) */
+.form-container{
+  width: var(--form-width);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  z-index:15;
+  /* смещаем форму чуть ниже центра правой колонки:
+     это можно тонко подправить: уменьшить translateY -> поднимет форму, увеличить -> опустит */
+  transform: translateY(0%); /* немного опускаем форму внутри правой колонки */
+}
+
+/* Форма: теперь используем явные группы (group-gap) между логическими группами */
+.register-form{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* ПОЛЯ: Имя и Пароль — одинаковые по ширине/высоте с кнопкой */
+.field{
+  width:100%;
+  margin-bottom: 12px; /* маленький gap внутри пары (можно подправить) */
+}
+.field input[type="text"],
+.field input[type="password"]{
+  width:100%;
+  height: var(--input-height);
+  padding: 8px 26px;
+  font-size:32px;
+  font-family:'MontserratCustom';
+  color:#000;
+  background: var(--input-bg);
+  border:none;
+  border-radius: var(--border-radius);
+  box-shadow: 0 6px 0 rgba(0,0,0,0.08);
+  outline:none;
+}
+/* === Floating labels (адаптация под твои переменные) === */
+.field.floating {
+  position: relative;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+/* Input — чуть больше паддинг сверху для метки */
+.field.floating input {
+  width: 100%;
+  padding: 18px 64px 12px 26px; /* справа запас для глазика */
+  height: var(--input-height);
+  font-size: 32px;
+  font-family: 'MontserratCustom';
+  color: #000;
+  background: var(--input-bg);
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: 0 6px 0 rgba(0,0,0,0.08);
+  outline: none;
+  transition: box-shadow 160ms, transform 120ms;
+}
+
+/* Label — сначала внутри поля */
+.field.floating label {
+  position: absolute;
+  left: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 160ms ease;
+  font-size: 20px;
+  color: #808080;
+  pointer-events: none;
+  padding: 0 6px;
+  background: transparent;
+}
+
+/* Поднятая метка — при фокусе или когда поле не пустое */
+.field.floating input:focus + label,
+.field.floating input:not(:placeholder-shown) + label,
+.field.floating input.filled + label {
+  top: 6px;
+  transform: none;
+  font-size: 14px;
+  color: var(--title-color);
+  font-weight:600;
+}
+
+/* Усиливаем визуал при фокусе */
+.field.floating input:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.10);
+  border: 1px solid rgba(138,168,120,0.12);
+}
+
+/* Password field: глазик (вставить в правой части) */
+.password-field { position: relative; }
+.password-field .pw-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 6px;
+  color: #444;
+  /* по умолчанию глазик отключён визуально — включить pointer-events, если хочешь */
+  pointer-events: auto;
+}
+
+/* Для мобильных: чуть меньше шрифтов и паддинг */
+@media (max-width:1000px) {
+  .field.floating input { padding: 14px 54px 10px 20px; font-size: 28px; }
+  .field.floating label { left: 20px; }
+}
+
+/* ГЕП между логическими группами: между парой полей и строкой селектов */
+.group-gap { height: var(--group-gap); width:100%; }
+
+/* Селекты — в строке, по центру, но сами меньше по ширине */
+.selects-row{
+  display:flex;
+  gap: var(--inner-gap);
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  margin-bottom: 0; /* мы управим отступ через .group-gap */
+}
+.select-wrap {
+  display: flex;              /* включаем флекс */
+  gap: var(--inner-gap);      /* расстояние между селектами */
+  justify-content: center;    /* выравнивание по центру */
+  align-items: center;        /* вертикальное выравнивание */
+  width: 100%;
+}
+
+.select-wrap select{
+  width: var(--select-width);
+  height: var(--input-height);
+  padding: 8px 18px;
+  font-size:20px;
+  font-family:'MontserratCustom';
+  border-radius: var(--border-radius);
+  border:none;
+  background: var(--select-bg);
+  box-shadow: 0 4px 0 rgba(0,0,0,0.06);
+  appearance:none;
+}
+/* контейнер для select + заметки */
+.select-with-note {
+  display: inline-block;
+  width: 215px;                 /* твои размеры */
+  position: relative;
+  font-family: 'MontserratCustom', sans-serif;
+}
+
+/* сам select — стилизуем под твой дизайн */
+.select-with-note select {
+  width: 100%;
+  height: 56px;
+  padding: 8px 18px;
+  font-size: 20px;
+  border-radius: 25px;
+  border: none;
+  background: #CAE9B8;          /* цвет блока Язык */
+  font-family: 'MontserratCustom';
+  appearance: none;             /* убрать стрелку на некоторых браузерах (внешний вид) */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.06);
+}
+
+/* небольшая обёртка/иконка стрелки (если захочешь) — не обязательно */
+.select-with-note::after {
+  content: '▾';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 18px;
+  color: #333;
+}
+
+/* заметка — по умолчанию скрыта (чтобы не занимать место) */
+.select-with-note .select-note {
+  display: none;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #4d4d4d;
+  line-height: 1.2;
+  max-width: 100%;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+/* Показываем заметку, когда контейнер в фокусе (когда пользователь фокусируется на select) */
+.select-with-note:focus-within .select-note {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Важное: для старых браузеров, которые не поддерживают :focus-within,
+   заметка будет оставаться скрытой — это нормально для курсового проекта.
+   :focus-within поддерживается в большинстве современных браузеров. */
+
+/* небольшой стилистический "хаck" для disabled option (сделать его серым),
+   но визуальное представление option контролируется браузером и в разных браузерах выглядит по-разному */
+.select-with-note select option[disabled] {
+  color: #888;
+}
+
+/* класс visually-hidden — для скрывающей метки (доступность) */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* Промежуток между селектами и кнопкой делаем равным --group-gap (та же группа) */
+/* Кнопка — равна по ширине полям ввода */
+.action{ width:100%; margin-top:0; }
+.action .btn-primary{
+  width:100%;
+  height: var(--input-height);
+  border-radius: var(--border-radius);
+  border:none;
+  background: var(--btn-bg);
+  color:#fff;
+  font-size:32px;
+  font-family:'MontserratCustom';
+  box-shadow: 0 6px 0 rgba(0,0,0,0.08);
+  cursor:pointer;
+}
+/* === Шаг 1: Анимация появления страницы === */
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Применяем анимацию к обёртке страницы */
+.page-wrap {
+  /* если уже есть другие свойства — просто дополняем */
+  animation: pageIn 620ms ease-out both;
+}
+
+/* === Шаг 1: Базовые переходы для интерактивных элементов === */
+/* Подключаем небольшие переходы по умолчанию для полей/кнопок/select */
+.field input,
+.select-with-note select,
+.btn-primary {
+  transition: box-shadow 180ms ease, transform 120ms ease, background 160ms ease;
+}
+
+/* === Шаг 1: Фокус-эффект для input (подсветка + лёгкий подъём) === */
+.field input:focus {
+  outline: none; /* визуальную подсветку делаем через тень и рамку */
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.10);
+  border: 1px solid rgba(138, 168, 120, 0.22);
+}
+
+/* === Шаг 1: "Underline" эффект — тонкая линия под полем при фокусе === */
+.field {
+  position: relative; /* важно для псевдоэлемента */
+}
+.field::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -8px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #8AA878, transparent);
+  border-radius: 6px;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 240ms cubic-bezier(.2,.9,.25,1), opacity 180ms;
+  opacity: 0;
+}
+.field:focus-within::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* Небольшая корректировка для select (чтобы поведение было согласованным) */
+.select-with-note:focus-within select {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
+/* === Шаг 2: Card background + subtle shadow для формы === */
+.form-container {
+  /* если у тебя уже есть background/padding, эти строки дополнят их */
+  background: rgba(255,255,255,0.06);   /* полупрозрачная "карточка" */
+  padding: 20px 24px;                   /* внутренние отступы карточки */
+  border-radius: 18px;                  /* скругление карточки */
+  box-shadow: 0 12px 36px rgba(10,20,10,0.06); /* мягкая тень под карточкой */
+  backdrop-filter: blur(6px);           /* легкое размытие фона за карточкой (может не поддерживаться в старых браузерах) */
+  transition: box-shadow 220ms ease, transform 160ms ease;
+}
+
+/* При наведении на карточку — чуть усиливаем тень (subtle lift) */
+.form-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(12,22,12,0.10);
+}
+
+/* === Шаг 2: Кнопка — hover / active / focus === */
+.btn-primary {
+  width: 100%;
+  height: var(--input-height); /* уже задано ранее */
+  border-radius: var(--border-radius);
+  border: none;
+  background: linear-gradient(180deg, var(--btn-bg), #9c7de0); /* лёгкий градиент на основе переменной */
+  color: #fff;
+  font-size: 32px;
+  font-family: 'MontserratCustom', sans-serif;
+  box-shadow: 0 8px 0 rgba(0,0,0,0.08); /* "подложка" */
+  cursor: pointer;
+  transition: transform 160ms cubic-bezier(.2,.9,.25,1), box-shadow 160ms, filter 160ms;
+  will-change: transform, box-shadow;
+}
+
+/* hover — легкий "подпрыг" и более яркая тень */
+.btn-primary:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+  filter: brightness(1.02);
+}
+
+/* active — нажатие "утопляет" кнопку */
+.btn-primary:active {
+  transform: translateY(-2px) scale(0.997);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.10);
+}
+
+/* focus — для доступности: чёткая, но мягкая подсветка */
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 0 0 4px rgba(138,168,120,0.12);
+}
+
+/* маленькая "подсказка" при наведении на весь контейнер формы: слегка подсвечиваем кнопку */
+.form-container:hover .btn-primary { filter: saturate(1.03); }
+
+/* touch-friendly: увеличиваем зона на мобильных устройствах */
+@media (max-width: 600px) {
+  .btn-primary { padding: 8px 12px; font-size: 28px; }
+  .form-container { padding: 18px; }
+}
+
+/* Мобильная адаптация */
+@media (max-width:1000px){
+  .columns{ flex-direction:column; }
+  .left-col, .right-col{ width:100%; }
+  .titles{ position:relative; left:auto; transform:none; top:auto; margin-bottom:18px; }
+  .hero-image{ width:100%; height:auto; max-width:460px; }
+  .headline{ font-size:48px; }
+  .right-col{ align-items:center; } /* в мобильной — центрируем форму */
+  .form-container{ transform:none; }
+}
