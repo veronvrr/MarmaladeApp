@@ -68,11 +68,17 @@ Open http://localhost:8080 in your browser.
 
 ## Screenshots
 
+### Home page
+![Home page](docs/images/home.jpeg)
+
+### Login
+![Login](docs/images/login.jpeg)
+
+### Register
+![Register](docs/images/register.jpeg)
+
 ### Learning modules
 ![Learning modules](docs/images/modules.jpeg)
-
-### Exercises
-![Exercises](docs/images/exercises.jpeg)
 
 ### Tutors catalog
 ![Tutors catalog](docs/images/tutors.jpeg)
@@ -80,17 +86,11 @@ Open http://localhost:8080 in your browser.
 ### Profile
 ![Profile](docs/images/profile.jpeg)
 
-### Home page
-![Home page](docs/images/home.jpeg)
-
-### Login
-![Login](docs/images/login.jpeg)
-
 ### Edit profile
 ![Edit profile](docs/images/edit_profile.jpeg)
 
-### Register
-![Register](docs/images/register.jpeg)
+### Exercises
+![Exercises](docs/images/exercises.jpeg)
 
 ### Choose and sort tutors
 ![Sort tutors](docs/images/sort_tutors.jpeg)
