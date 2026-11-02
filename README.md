@@ -69,34 +69,34 @@ Open http://localhost:8080 in your browser.
 ## Screenshots
 
 ### Learning modules
-![Learning modules](docs/images/modules.png)
+![Learning modules](docs/images/modules.jpeg)
 
 ### Exercises
-![Exercises](docs/images/exercises.png)
+![Exercises](docs/images/exercises.jpeg)
 
 ### Tutors catalog
-![Tutors catalog](docs/images/tutors.png)
+![Tutors catalog](docs/images/tutors.jpeg)
 
 ### Profile
-![Profile](docs/images/profile.png)
+![Profile](docs/images/profile.jpeg)
 
 ### Home page
-![Home page](docs/images/home.png)
+![Home page](docs/images/home.jpeg)
 
 ### Login
-![Login](docs/images/login.png)
+![Login](docs/images/login.jpeg)
 
 ### Edit profile
-![Edit profile](docs/images/edit_profile.png)
+![Edit profile](docs/images/edit_profile.jpeg)
 
 ### Register
-![Register](docs/images/register.png)
+![Register](docs/images/register.jpeg)
 
 ### Choose and sort tutors
-![Sort tutors](docs/images/sort_tutors.png)
+![Sort tutors](docs/images/sort_tutors.jpeg)
 
 ### Leave a class application
-![Leave a request](docs/images/leave_request.png)
+![Leave a request](docs/images/leave_request.jpeg)
 
 
 ## Possible improvements
