@@ -66,6 +66,38 @@ java -jar target/language-app-0.0.1-SNAPSHOT.jar
 ```
 Open http://localhost:8080 in your browser.
 
+## Screenshots
+
+### Learning modules
+![Learning modules](docs/images/modules.png)
+
+### Exercises
+![Exercises](docs/images/exercises.png)
+
+### Tutors catalog
+![Tutors catalog](docs/images/tutors.png)
+
+### Profile
+![Profile](docs/images/profile.png)
+
+### Home page
+![Home page](docs/images/home.png)
+
+### Login
+![Login](docs/images/login.png)
+
+### Edit profile
+![Edit profile](docs/images/edit_profile.png)
+
+### Register
+![Register](docs/images/register.png)
+
+### Choose and sort tutors
+![Sort tutors](docs/images/sort_tutors.png)
+
+### Leave a class application
+![Leave a request](docs/images/leave_request.png)
+
 
 ## Possible improvements
 - Support for more languages and levels
